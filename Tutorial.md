@@ -91,7 +91,7 @@ Go to [archlinux.org/mirrorlist](https://archlinux.org/mirrorlist) and generate 
 Link the keyring directory with `ln -sv /compat/artix/usr/share/pacman/keyrings /usr/local/share/pacman/keyrings`, then run `pacman-key --init && pacman-key --populate` to initialize the keying
 
 ---
-At this point, DO NOT `pacman -Syu`!!!
+DO NOT `pacman -Syu` YET!
 
 Sync the repos and install the Arch Linux keyring for the additional repositories (forcefully updating the artix keyring too):
 ```
