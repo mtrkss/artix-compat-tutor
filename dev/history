@@ -1,0 +1,214 @@
+#!/bin/sh # adding this for syntax highlighting
+# DO NOT JUST BLINDLY FOLLOW THIS FILE
+# These are the commands I executed to set up the artix tutorial
+
+printf "Do not execute this.\n"
+exit 1
+exit 1
+return
+#: adding this because some dumb people might try running this file as a script
+
+#: start
+
+sudo -i
+df
+
+# Filesystem            512-blocks      Used     Avail Capacity  Mounted on
+# plan8/ROOT/based       323622392   1915032 321707360     1%    /
+# devfs                          2         0         2     0%    /dev
+# /dev/ada0p1              2093016     90904   2002112     4%    /boot/efi
+# plan8/opt              321969936    262576 321707360     0%    /opt
+# plan8/opt/jails         25165824       192  25165632     0%    /opt/jails
+# plan8/var              327350184   5642824 321707360     2%    /var
+# plan8/var/tmp          321707552       192 321707360     0%    /var/tmp
+# plan8/var/run          321707896       536 321707360     0%    /var/run
+# plan8/var/mail         321707664       304 321707360     0%    /var/mail
+# plan8/var/log          321708456      1096 321707360     0%    /var/log
+# plan8/var/db           322519792    812432 321707360     0%    /var/db
+# plan8/var/db/pkg       321819856    112496 321707360     0%    /var/db/pkg
+# plan8/src              323377912   1670552 321707360     1%    /usr/src
+# plan8/local            331656664   9949304 321707360     3%    /usr/local
+# plan8/ports            321707568       208 321707360     0%    /usr/ports
+# plan8/ports/distfiles  321707552       192 321707360     0%    /usr/ports/distfiles
+# plan8/ports/packages   321707552       192 321707360     0%    /usr/ports/packages
+# plan8/home             439814888 118107528 321707360    27%    /home
+# plan8/tmp              323316768   1609408 321707360     0%    /tmp
+# plan8/compat           325046920   3339560 321707360     1%    /compat
+# procfs                        16         0        16     0%    /proc
+# fdescfs                        2         0         2     0%    /dev/fd
+# devfs                          2         0         2     0%    /compat/archlinux/dev
+# fdescfs                        2         0         2     0%    /compat/archlinux/dev/fd
+# tmpfs                   19672064         8  19672056     0%    /compat/archlinux/dev/shm
+# /home                  439814888 118107528 321707360    27%    /compat/archlinux/home
+# /var/run               321707896       536 321707360     0%    /compat/archlinux/run
+# /opt                   321969936    262576 321707360     0%    /compat/archlinux/opt
+# linprocfs                     16         0        16     0%    /compat/archlinux/proc
+# linsysfs                      16         0        16     0%    /compat/archlinux/sys
+# /tmp                   323316768   1609408 321707360     0%    /compat/archlinux/tmp
+# plan8/place            321760896     53536 321707360     0%    /place
+
+service archlinux disable
+umount -vf /compat/archlinux/*/*
+umount -vf /compat/archlinux/*
+rm -rfv /compat/archlinux
+git clone --depth=1 https://github.com/mtrkss/scrpts /tmp/scripts
+
+#: i went to https://artixlinux.org/download.php to find the latest stable iso
+cp /home/cone/Downloads/artix-base-dinit-20230814-x86_64.iso /tmp/artix.iso
+
+/tmp/scripts/filesystem/unsqua.sh /tmp/artix.iso /compat/artix
+# Searching for unsquashfs...
+# Error: unsquashfs not found! Please install the squashfs-tools package.
+
+#: had to install squashfs-tools
+
+pkg install squashfs-tools
+/tmp/scripts/filesystem/unsqua.sh /tmp/artix.iso /compat/artix
+# Searching for unsquashfs...
+# /usr/local/bin/unsquashfs
+# unsquashfs found
+#
+# /tmp/98c31d42a7
+# /tmp/98c31d42a7
+# Parallel unsquashfs: Using 12 processors
+# 82749 inodes (72471 blocks) to write
+#
+# [=====================================================================|] 155220/155220 100%
+#
+# created 71465 files
+# created 6658 directories
+# created 9220 symlinks
+# created 0 devices
+# created 0 fifos
+# created 0 sockets
+# created 2064 hardlinks
+# /tmp/98c31d42a7
+
+ls -lapF /compat/artix
+# total 100
+# drwxr-xr-x  16 root wheel  20 Aug 13  2023 ./
+# drwxr-xr-x   3 root wheel   3 Mar  4 16:54 ../
+# lrwxrwxrwx   1 root wheel   7 Feb  1  2023 bin@ -> usr/bin
+# drwxr-xr-x   3 root wheel   6 Aug 13  2023 boot/
+# drwxr-xr-x   2 root wheel   2 Aug 13  2023 dev/
+# drwxr-xr-x  74 root wheel 154 Aug 13  2023 etc/
+# drwxr-xr-x   2 root wheel   2 Feb  1  2023 home/
+# lrwxrwxrwx   1 root wheel   7 Feb  1  2023 lib@ -> usr/lib
+# lrwxrwxrwx   1 root wheel   7 Feb  1  2023 lib64@ -> usr/lib
+# drwxr-xr-x   2 root wheel   2 Feb  1  2023 mnt/
+# drwxr-xr-x   2 root wheel   2 Feb  1  2023 opt/
+# dr-xr-xr-x   2 root wheel   2 Aug 13  2023 proc/
+# drwxr-x---   4 root wheel   4 Aug 13  2023 root/
+# drwxr-xr-x   2 root wheel   2 Aug 13  2023 run/
+# lrwxrwxrwx   1 root wheel   7 Feb  1  2023 sbin@ -> usr/bin
+# drwxr-xr-x   4 root wheel   4 Aug 13  2023 srv/
+# dr-xr-xr-x   2 root wheel   2 Aug 13  2023 sys/
+# drwxrwxrwt   2 root wheel   2 Aug 13  2023 tmp/
+# drwxr-xr-x   8 root wheel  10 Aug 13  2023 usr/
+# drwxr-xr-x  12 root wheel  15 Aug 13  2023 var/
+
+cp /place/src/artix-compat-tutor/scripts/artix /usr/local/etc/rc.d/
+service artix enable
+# artix enabled in /etc/rc.conf
+service artix start
+# compat.linux.emul_path: /compat/linux -> /compat/artix
+
+pkg install archlinux-keyring # WAIT WAIT WAIT, DON'T DO THIS! READ THE COMMENTS AFTER THAT!
+# ...
+# New packages to be INSTALLED:
+# 	archlinux-keyring: 20231222
+#	archlinux-pacman: 6.0.2_1
+# ...
+
+#: I stopped to write a pacman config and drop it into the repo
+#: ...And realized that this pacman created /compat/archlinux which I do NOT want.
+#: Sooo
+
+pkg remove archlinux-pacman
+# ...
+# Installed packages to be REMOVED:
+#	archlinux-pacman: 6.0.2_1
+# 	archlinux-keyring: 20231222
+# ...
+
+pkg install pacman
+#: it did not create the directory!
+#: ... though it created /usr/local/pacman
+
+tree /usr/local/pacman
+# └── var
+#     ├── cache
+#     │   └── pacman
+#     │       └── pkg
+#     └── lib
+#         └── pacman
+#: All the dirs are empty, we can remove them :) (just kidding, DO NOT.)
+#: Let's just drop the pacman configs and forget about the dirs we don't want
+
+
+cp /place/src/artix-compat-tutor/dev/pacman/inside/pacman.conf /compat/artix/etc/pacman.conf
+cp /place/src/artix-compat-tutor/dev/pacman/outside/pacman.conf /usr/local/etc/pacman.conf
+
+#: Now I went to https://archlinux.org/mirrorlist and made a.. Mirrorlist
+#: we're going to place these in /compat/artix/etc/pacman.d/mirrorlist-arch
+#: Server = http://ftp.byfly.by/pub/archlinux/$repo/os/$arch
+#: Server = http://mirror.datacenter.by/pub/archlinux/$repo/os/$arch
+#: Server = https://arch.sakamoto.pl/$repo/os/$arch
+#: Server = https://ftp.icm.edu.pl/pub/Linux/dist/archlinux/$repo/os/$arch
+#: Server = https://repo.skni.umcs.pl/archlinux/$repo/os/$arch
+#: Also edit /compat/artix/etc/pacman.d/mirrorlist to only include the mirrors I need
+
+#: Aaad I fucked up.
+pacman-key --init
+pacman-key --populate
+# ==> ERROR: No keyring files exist in /usr/local/share/pacman/keyrings.
+#: hmmmmm...
+ln -sv /compat/artix/usr/share/pacman/keyrings /usr/local/share/pacman/keyrings
+pacman-key --populate artix
+#: it worked!
+pacman -S tmux
+# resolving dependencies...
+# looking for conflicting packages...
+#
+# Package (1)  New Version  Net Change
+#
+# world/tmux   3.4-4          1.00 MiB
+#
+# Total Installed Size:  1.00 MiB
+#
+# :: Proceed with installation? [Y/n] y
+# (1/1) checking keys in keyring                     [-------------] 100%
+# (1/1) checking package integrity                   [-------------] 100%
+# (1/1) loading package files                        [-------------] 100%
+# (1/1) checking for file conflicts                  [-------------] 100%
+# :: Processing package changes...
+# (1/1) installing tmux                              [-------------] 100%
+
+#: now let's install the arch linux keyring
+pacman -S archlinux-keyring
+pacman-key --init archlinux
+pacman-key --populate archlinux
+
+#: let's try installing something from the arch repos
+#: but first let's clean up this mess, we're going to use artix just as a container after all
+pacman -Runc linux linux-headers linux-firmware linux-firmware-whence alsa-firmware intel-ucode amd-ucode grub dinit
+
+#: now we can update :3
+pacman -Syu
+
+#: and install
+pacman -S base-devel ed git discord libappindicator-gtk3 xdg-utils alsa-lib pasystray
+#: it worked!!
+#: now
+pkg ins alsa-lib alsa-utils pulseaudio
+cp -rv /place/src/artix-compat-tutor/scripts/opt /opt/scripts
+cp /opt/scripts/example-wrapper /opt/discord/wrapper
+cp /opt/scripts/example-exec /usr/local/bin/discord
+
+#: and now as a normal user
+discord
+
+#; "Update failed - retrying in X sec..."
+#: Hmmmm...
+#: Oh wait, I think we don't have the resolv populated
+sudo sh -c 'printf "nameserver 1.1.1.1\nnameserver 1.0.0.1\n">>/compat/artix/etc/resolv.conf'

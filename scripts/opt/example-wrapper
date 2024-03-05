@@ -1,0 +1,13 @@
+#!/compat/artix/bin/bash
+
+# Modified Brave browser wrapper, originally made for the CentOS compat by the chromium devs.
+
+HERE="/opt/discord"
+
+. /opt/scripts/wexp
+
+exec < /dev/null
+exec > >(exec cat)
+exec 2> >(exec cat >&2)
+
+"$HERE/Discord" --no-sandbox --test-type --disable-dev-shm-usage --v=0 "$@" || true
