@@ -5,6 +5,7 @@
 
 - FreeBSD 14.0-RELEASE-p4
 - FreeBSD 14.0-RELEASE-p5
+- FreeBSD 15.0-CURRENT amd64  (By @eternalblissed)
 
 Will work on 15, should technically work on 13.
 Don't know anything about FreeBSD forks or NetBSD.
@@ -70,6 +71,56 @@ created 0 fifos
 created 0 sockets
 created 2064 hardlinks
 ```
+## Or if you prefer to do it manualy
+Assuming your trying to run  `./unsqua.sh artix.iso /compat/artix LiveOS/rootfs.img` in `/tmp/artix-compat/tutor`
+
+Associate the ISO with a Device:
+Use mdconfig to create a memory disk from the ISO file:
+
+```bash
+mdconfig_device=$(mdconfig artix.iso)
+```
+
+This command will output the name of the memory disk created, such as md0.
+
+Create a Temporary Mount Point:
+You might want to create a temporary directory for mounting the ISO:
+
+```bash
+temp_mount=/tmp/$(md5 -q -s "$RANDOM")  # Creates a somewhat unique directory name
+mkdir -p "$temp_mount"
+```
+
+Mount the ISO:
+Mount the ISO to the temporary directory:
+
+```bash
+mount -t cd9660 /dev/$mdconfig_device "$temp_mount"
+```
+
+Extract the SquashFS:
+Now, use unsquashfs to extract the SquashFS filesystem to your desired location:
+
+```bash
+unsquashfs -d /compat/artix "$temp_mount/LiveOS/rootfs.img"
+```
+
+This extracts the contents of LiveOS/rootfs.img from the ISO to /compat/artix.
+
+Cleanup:
+After extraction, unmount the ISO and remove the memory disk:
+
+```bash
+umount "$temp_mount"
+mdconfig -d -u $mdconfig_device
+```
+
+And remove the temporary mount directory:
+
+```bash
+rmdir "$temp_mount"
+```
+
 Check if your FreeBSD installation has `/opt`, if it doesn't then create it, then copy [scripts/artix](scripts/artix) from this repository into `/usr/local/etc/rc.d` and run `service artix enable && service artix start` to mount all the filesystems in linuxulator.
 
 ---
