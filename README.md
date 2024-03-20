@@ -1,4 +1,5 @@
 huh, how did i get here?
+who knows... <_<
 
 ## Artix-compat-tutor
 *(Artix Linuxulator)*
