@@ -176,7 +176,7 @@ Drop the [scripts/opt](scripts/opt) directory into `/opt/scripts`, copy `/opt/sc
 Run `discord` as a normal user.
 
 # Installing an AUR helper
-Create a new user with the same name and UID as your main FreeBSD user using `sudo useradd $name -u $uid -m -s /bin/bash -G wheel,input,audio,video,games` (replace $uid and $name with the appropriate strings)
+Create a new user with the same name and UID as your main FreeBSD user using `useradd $name -u $uid -m -s /bin/bash -G wheel,input,audio,video,games` (replace $uid and $name with the appropriate strings)
 
 Set a password for root and the freshly created user with `passwd` and add the user to `/etc/sudoers`.
 
