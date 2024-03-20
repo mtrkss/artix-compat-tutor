@@ -174,6 +174,9 @@ Drop the [scripts/opt](scripts/opt) directory into `/opt/scripts`, copy `/opt/sc
 ---
 Run `discord` as a normal user.
 
-## Installing yay
+# Installing an AUR helper
+create a new user with the same name and UID as your FreeBSD user using `useradd $name -u $uid -m -s /bin/bash -G wheel,input,audio,video,games` (replace $uid and $name with the appropriate strings)
 
-TBD
+Set a password for root and the freshly created user with `passwd` and add the user to `/etc/sudoers`.
+
+`su` into the user and install [yay](https://github.com/Jguer/yay) or [paru](https://github.com/Morganamilo/paru) using the instructions provided in their repository.
