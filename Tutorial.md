@@ -7,7 +7,7 @@
 - FreeBSD 14.0-RELEASE-p5
 - FreeBSD 15.0-CURRENT amd64  (By @eternalblissed)
 
-Will work on 15, should technically work on 13.
+Will work on all 15 snapshots, should work on 13.
 Don't know anything about FreeBSD forks or NetBSD.
 </details>
 
@@ -71,13 +71,14 @@ created 0 fifos
 created 0 sockets
 created 2064 hardlinks
 ```
+
 ## Or if you prefer to do it manualy
 Assuming your trying to run  `./unsqua.sh artix.iso /compat/artix LiveOS/rootfs.img` in `/tmp/artix-compat/tutor`
 
 Associate the ISO with a Device:
 Use mdconfig to create a memory disk from the ISO file:
 
-```bash
+```sh
 mdconfig_device=$(mdconfig artix.iso)
 ```
 
@@ -86,8 +87,8 @@ This command will output the name of the memory disk created, such as md0.
 Create a Temporary Mount Point:
 You might want to create a temporary directory for mounting the ISO:
 
-```bash
-temp_mount=/tmp/$(md5 -q -s "$RANDOM")  # Creates a somewhat unique directory name
+```sh
+temp_mount=$(mktemp -d)
 mkdir -p "$temp_mount"
 ```
 
@@ -101,7 +102,7 @@ mount -t cd9660 /dev/$mdconfig_device "$temp_mount"
 Extract the SquashFS:
 Now, use unsquashfs to extract the SquashFS filesystem to your desired location:
 
-```bash
+```sh
 unsquashfs -d /compat/artix "$temp_mount/LiveOS/rootfs.img"
 ```
 
@@ -110,14 +111,14 @@ This extracts the contents of LiveOS/rootfs.img from the ISO to /compat/artix.
 Cleanup:
 After extraction, unmount the ISO and remove the memory disk:
 
-```bash
+```sh
 umount "$temp_mount"
 mdconfig -d -u $mdconfig_device
 ```
 
 And remove the temporary mount directory:
 
-```bash
+```sh
 rmdir "$temp_mount"
 ```
 
@@ -175,7 +176,7 @@ Drop the [scripts/opt](scripts/opt) directory into `/opt/scripts`, copy `/opt/sc
 Run `discord` as a normal user.
 
 # Installing an AUR helper
-create a new user with the same name and UID as your FreeBSD user using `useradd $name -u $uid -m -s /bin/bash -G wheel,input,audio,video,games` (replace $uid and $name with the appropriate strings)
+Create a new user with the same name and UID as your main FreeBSD user using `sudo useradd $name -u $uid -m -s /bin/bash -G wheel,input,audio,video,games` (replace $uid and $name with the appropriate strings)
 
 Set a password for root and the freshly created user with `passwd` and add the user to `/etc/sudoers`.
 
